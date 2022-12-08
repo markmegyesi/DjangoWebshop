@@ -1,1 +1,4 @@
 /venv
+webshop/db.sqlite3
+webshop/shop/__pycache__/
+webshop/shop/__pycache__/

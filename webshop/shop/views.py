@@ -21,27 +21,31 @@ class CartView(ListView):
 @login_required
 def add_to_cart(request,product_id):
     # if request.method == 'POST':
+    
     product = get_object_or_404(ProductModel, pk=product_id)
     cart_qs = CartModel.objects.filter(user=request.user)
-    print(cart_qs)
-    cart_item = CartItemModel.objects.get_or_create(cart=cart_qs[0])
     
-    print (cart_item)
+    
     if cart_qs.exists():
         cart = cart_qs[0]
-        print(cart.product_id)
-        if cart.product == product_id:
+        cart_item =CartItemModel(product=product)
+        cart_item.save()
+        cart_item.cart.add(cart)
+        cart_item.save()
+        print (cart_item)
+        if cart_item.product == product_id:
             cart_item.quantity += request.POST.get('select')
-            cart_item.product.save()
+            cart_item.save()
             messages.info(request,f"{product.product_name} has been added to your cart.")
             return(redirect('shop-home'))
             
-        else:
-            cart.cart.add(cart_item)
-            messages.info(request, f"{product.product_name} has been added to your cart.")
-            return(redirect('shop-home'))
+        # else:
+        #     cart_item.cart.add(cart_item)
+        #     messages.info(request, f"{product.product_name} has been added to your cart.")
+        #     return(redirect('shop-home'))
     else:
         cart = CartModel.objects.create(user=request.user)
-        cart.cart.add(cart_item)
+        cart_item_model= CartItemModel.objects.create(cart=cart)
+        cart_item_model.cart.set(cart)
         messages.info(request, f"{product.product_name} has been added to your cart.")
         return(redirect('shop-home'))

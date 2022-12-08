@@ -9,8 +9,9 @@ class ProductModel(models.Model):
     class Meta:
         db_table = 'products'
 
-def __str__(self):
-    return(f"{self.product_name}")
+    def __str__(self):
+        return(f"{self.product_name}")
+
 class CartModel(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
@@ -19,8 +20,8 @@ class CartModel(models.Model):
     class Meta:
         db_table = 'cart'
 
-def __str__(self): 
-    return self.user
+    def __str__(self): 
+        return self.user.username
 
 class CartItemModel(models.Model):
     
@@ -31,8 +32,8 @@ class CartItemModel(models.Model):
     class Meta:
         db_table = 'cart_items' 
 
-def __str__(self):
-    return f'{self.quantity} of {self.product.product_name}'
+    def __str__(self):
+        return f'{self.quantity} of {self.product.product_name}'
 
 
 
