@@ -1,0 +1,31 @@
+{% extends 'shop/base.html'%}
+{% block content %}
+
+<div class="row row-cols-1 row-cols-md-3 g-6">
+    {% for item in products %}
+    <div class="col">
+        <div class="card" style="width: 15rem; height: 15rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{item.product_name}}</h5>
+                <p class="card-text"> <br>{{item.price}}</p>
+                <button class="btn btn-outline-info" name="Buy" type="submit">Vásárlás</button>
+                {% if user.is_authenticated %}
+                <a href="cart/{{item.id}}">Add</a>
+                  <!-- <form method="post">
+                    {% csrf_token %}
+                <input class="btn btn-outline-info" type="submit" name="submit" value="Add" id="submit-id-submit"> 
+                <select class="form-select" aria-label="Default select example" name="select">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+                </form>  -->
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %} 

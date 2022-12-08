@@ -1,0 +1,92 @@
+[
+    {
+      "model": "shop.ProductModel",
+      "pk": 1,
+      "fields": {
+        "product_name": "God of war: Ragnarök",
+        "price": "23990",
+        "quantity": 100
+      }
+    },
+    {
+        "model": "shop.ProductModel",
+        "pk": 2,
+        "fields": {
+          "product_name": "Cyberpunk 2077",
+          "price": "9900",
+          "quantity": 100
+        }
+      },
+      {
+        "model": "shop.ProductModel",
+        "pk": 3,
+        "fields": {
+          "product_name": "Guardians of the Galaxy",
+          "price": "21990",
+          "quantity": 100
+        }
+      },
+      {
+        "model": "shop.ProductModel",
+        "pk": 4,
+        "fields": {
+          "product_name": "Dragon Ball: Kakarot",
+          "price": "19990",
+          "quantity": 100
+        }
+      },
+      {
+        "model": "shop.ProductModel",
+        "pk": 5,
+        "fields": {
+          "product_name": "Avengers",
+          "price": "13990",
+          "quantity": 100
+        }
+      },
+      {
+        "model": "shop.ProductModel",
+        "pk": 6,
+        "fields": {
+          "product_name": "Star Wars: Fallen Order",
+          "price": "18990",
+          "quantity": 100
+        }
+      },
+      {
+        "model": "shop.ProductModel",
+        "pk": 7,
+        "fields": {
+          "product_name": "Horizon: Zero Dawn",
+          "price": "13990",
+          "quantity": 100
+        }
+      },
+      {
+        "model": "shop.ProductModel",
+        "pk": 8,
+        "fields": {
+          "product_name": "Horizon: Forbidden West",
+          "price": "23990",
+          "quantity": 100
+        }
+      },
+      {
+        "model": "shop.ProductModel",
+        "pk": 9,
+        "fields": {
+          "product_name": "Star Wars: Squadrons",
+          "price": "7990",
+          "quantity": 100
+        }
+      },
+      {
+        "model": "shop.ProductModel",
+        "pk": 10,
+        "fields": {
+          "product_name": "Spider-Man: Miles Morales",
+          "price": "23990",
+          "quantity": 100
+        }
+      }
+]
