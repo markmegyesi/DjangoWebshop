@@ -28,13 +28,15 @@ def add_to_cart(request,product_id):
     
     if cart_qs.exists():
         cart = cart_qs[0]
-        cart_item =CartItemModel(product=product)
-        cart_item.save()
-        cart_item.cart.add(cart)
-        cart_item.save()
+        cart_item = CartItemModel.objects.get_or_create(product=product)
+        print(cart_item[0])
+        # cart_item =CartItemModel(product=product)
+        # cart_item.save()
+        # cart_item.cart.add(cart)
+        # cart_item.save()
         print (cart_item)
         if cart_item.product == product_id:
-            cart_item.quantity += request.POST.get('select')
+            cart_item.quantity += 1
             cart_item.save()
             messages.info(request,f"{product.product_name} has been added to your cart.")
             return(redirect('shop-home'))
@@ -46,6 +48,6 @@ def add_to_cart(request,product_id):
     else:
         cart = CartModel.objects.create(user=request.user)
         cart_item_model= CartItemModel.objects.create(cart=cart)
-        cart_item_model.cart.set(cart)
+        cart_item_model.cart.add(cart)
         messages.info(request, f"{product.product_name} has been added to your cart.")
         return(redirect('shop-home'))
