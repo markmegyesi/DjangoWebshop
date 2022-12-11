@@ -1,12 +1,13 @@
 {% extends 'shop/base.html'%}
 {% block content %}
-
+<table class="table table-striped">
 <thead>
     <tr>
       
       <th scope="col">Product</th>
       <th scope="col">Quantity</th>
       <th scope="col">Price</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -15,10 +16,16 @@
       
       <td>{{item.product}}</td>
       <td>{{item.quantity}}</td>
-      <td>{{item.price}}</td>
+      <td>{{item.total}}</td>
+      <td> <a href="remove/{{item.id}}" class="btn btn-outline-warning">Delete</a></td>
     </tr>
    {% endfor %}
   </tbody>
+  <tfoot><td style="font-weight:bold">Total</td>
+    <td></td>
+    <td></td>
+    <td> <a href="order/" class="btn btn-outline-info">Order</a></td>
+  </tfoot>
 </table>
 
 {% endblock %}
