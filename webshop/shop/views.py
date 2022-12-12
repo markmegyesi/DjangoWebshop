@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 
-
 from .models import ProductModel,CartItemModel,CartModel,OrderModel
 
 
@@ -26,38 +25,43 @@ class CartView(ListView):
             return data
 
 @login_required
-def add_to_cart(request,product_id):
-    product = get_object_or_404(ProductModel, pk=product_id)
-    cart_qs = CartModel.objects.filter(user=request.user, ordered=False)
-    
-    
-    if cart_qs.exists() and cart_qs.ordered == False:
-        cart = cart_qs[0]
-        cart_item = CartItemModel.objects.filter(product=product)
-       
-        if cart_item.exists():
-            cart_item_model = CartItemModel.objects.get(product=product)
-            cart_item_model.quantity += 1
-            cart_item_model.save()
-            messages.info(request,f"{product.product_name} has been added to your cart.")
-            return(redirect('shop-home'))
-            
+def add_to_cart(request):
+    if request.method == 'POST':
+        product = get_object_or_404(ProductModel, pk=request.POST.get('product'))
+        print(product)
+        quantity = request.POST.get('quantity')
+        cart_qs = CartModel.objects.filter(user=request.user, ordered=False)
+        print(quantity)
+
+        if cart_qs.exists() and cart_qs.ordered == False:
+            cart = cart_qs[0]
+            cart_item = CartItemModel.objects.filter(product=product)
+
+            if cart_item.exists():
+                cart_item_model = CartItemModel.objects.get(product=product)
+                cart_item_model.quantity += quantity
+                cart_item_model.save()
+                messages.info(request,f"{product.product_name} has been added to your cart.")
+                return(redirect('shop-home'))
+                
+            else:
+                cart_item_model= CartItemModel.objects.create(product=product, quantity=quantity)
+                cart_item_model.cart.add(cart)
+                messages.info(request, f"{product.product_name} has been added to your cart.")
+                return(redirect('shop-home'))
         else:
-            cart_item_model= CartItemModel.objects.create(product=product)
+            cart = CartModel.objects.create(user=request.user)
+            cart_item_model= CartItemModel.objects.create(product=product,quantity=quantity)
             cart_item_model.cart.add(cart)
-            messages.info(request, f"{product.product_name} has been added to your cart.")
-            return(redirect('shop-home'))
-    else:
-        cart = CartModel.objects.create(user=request.user)
-        cart_item_model= CartItemModel.objects.create(product=product)
-        cart_item_model.cart.add(cart)
+
         messages.info(request, f"{product.product_name} has been added to your cart.")
         return(redirect('shop-home'))
+
+
 
 @login_required
 def cart_exist(request):
     cart_qs = CartModel.objects.filter(user=request.user, ordered=False)
-    print(cart_qs)
     if cart_qs.exists():
         return(redirect('cart-page'))
     else:
@@ -78,6 +82,8 @@ def order(request):
         cart_item= CartItemModel.objects.get(product=product)
         order = OrderModel.objects.create(user=request.user, cart=cart, product=product, quantity=cart_item.quantity )
         order.save()
+        product.quantity -= cart_item.quantity
+        product.save()
     cart_items.delete()
     cart.ordered=True
     cart.save()
@@ -87,10 +93,13 @@ def order(request):
 def direct_order(request, product_id): 
     product=ProductModel.objects.get(id=product_id)
     cart = CartModel.objects.create(user=request.user)
-    cart_item = CartItemModel.objects.create(product=product)
+    quantity = request.POST.get('quantity')
+    cart_item = CartItemModel.objects.create(product=product, quantity=quantity)
     cart_item.cart.add(cart)
     order = OrderModel.objects.create(user=request.user, cart=cart, product=product, quantity=cart_item.quantity )
     order.save()
+    product.quantity-=cart_item.quantity
+    product.save()
     cart_item.delete()
     cart.ordered=True
     cart.save()
