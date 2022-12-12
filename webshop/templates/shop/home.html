@@ -3,6 +3,7 @@
 
 <div class="row row-cols-1 row-cols-md-3 g-6">
     {% for item in products %}
+    {% if item.quantity > 0 %}
     <div class="col">
         <div class="card" style="width: 15rem; height: 15rem;">
             <div class="card-body">
@@ -20,6 +21,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
     {% endfor %}
 </div>
 

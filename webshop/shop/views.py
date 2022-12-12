@@ -13,6 +13,7 @@ class HomeListView(ListView):
     template_name = 'shop/home.html'
     context_object_name = 'products'
 
+
 class CartView(ListView):
     model=User
     template_name = 'shop/cart.html'
