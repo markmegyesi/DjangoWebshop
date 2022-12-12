@@ -80,14 +80,15 @@ def order(request):
     for item in cart_items:
         product=ProductModel.objects.get(product_name=item)
         cart_item= CartItemModel.objects.get(product=product)
-        order = OrderModel.objects.create(user=request.user, cart=cart, product=product, quantity=cart_item.quantity )
+        order = OrderModel.objects.create(user=request.user, cart=cart, product=product,
+                                         quantity=cart_item.quantity )
         order.save()
         product.quantity -= cart_item.quantity
         product.save()
     cart_items.delete()
     cart.ordered=True
     cart.save()
-    return(redirect('shop-home'))
+    return(redirect('receipt'))
 
 @login_required
 def direct_order(request, product_id): 
@@ -96,13 +97,23 @@ def direct_order(request, product_id):
     quantity = request.POST.get('quantity')
     cart_item = CartItemModel.objects.create(product=product, quantity=quantity)
     cart_item.cart.add(cart)
-    order = OrderModel.objects.create(user=request.user, cart=cart, product=product, quantity=cart_item.quantity )
+    order = OrderModel.objects.create(user=request.user, cart=cart, product=product,
+                                     quantity=cart_item.quantity )
     order.save()
     product.quantity-=cart_item.quantity
     product.save()
     cart_item.delete()
     cart.ordered=True
     cart.save()
-    return(redirect('shop-home'))
+    return(redirect('receipt'))
 
-    
+class RecieptListView(ListView):
+    model=User
+    template_name = 'shop/receipt.html'
+    context_object_name = 'items'
+
+    def get_queryset(self):
+            user_id = self.request.user.id
+            cart = CartModel.objects.latest('user')
+            data = OrderModel.objects.filter(cart=cart).all()
+            return data

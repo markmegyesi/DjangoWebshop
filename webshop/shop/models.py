@@ -23,6 +23,7 @@ class CartModel(models.Model):
 
     def __str__(self): 
         return f"{self.user.username}-ordered:{self.ordered}"
+    
 
 class CartItemModel(models.Model):
     
@@ -55,3 +56,13 @@ class OrderModel (models.Model):
 
     def __str__(self): 
         return (f"{self.user}s order: {self.date}")  
+
+    @property
+    def net_price(self):
+        return self.product.price-(self.product.price/100*27)
+
+    @property
+    def gross_price(self):
+        return self.product.price
+    
+        

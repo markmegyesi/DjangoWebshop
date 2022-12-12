@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import HomeListView,CartView,add_to_cart,cart_remove,order,cart_exist,direct_order
+from .views import (HomeListView,CartView,add_to_cart,cart_remove,
+                    order,cart_exist,direct_order,RecieptListView)
 
 
 
@@ -11,4 +12,5 @@ urlpatterns = [
     path('cart/order/', order, name='order'),
     path('cart/exist/',cart_exist , name='exist'),
     path('order/<int:product_id>',direct_order , name='order'),
+    path('receipt/',RecieptListView.as_view() , name='receipt'),
 ]

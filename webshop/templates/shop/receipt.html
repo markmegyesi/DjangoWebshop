@@ -6,27 +6,27 @@
 
       <th scope="col">Product</th>
       <th scope="col">Quantity</th>
-      <th scope="col">Price</th>
-      <th scope="col"></th>
+      <th scope="col">Gross Price</th>
+      <th scope="col">Net Price</th>
     </tr>
   </thead>
   <tbody>
-    
     {% for item in items %}
     
     <tr>
       <td>{{item.product}}</td>
       <td>{{item.quantity}}</td>
-      <td>{{item.total}}</td>
-      <td> <a href="remove/{{item.id}}" class="btn btn-outline-warning">Delete</a></td>
+      <td>{{item.gross_price}}</td>
+      <td>{{item.net_price}}</td>
+      
     </tr>
   </tbody>
   {% endfor %}
   <tfoot>
     <td style="font-weight:bold">Total</td>
+    <td><a href="/" class="btn btn-outline-warning"> Back to homepage</a></td>
     <td></td>
-    <td></td>
-    <td> <a href="order/" class="btn btn-outline-info">Order</a></td>
+    
   </tfoot>
 </table>
 
