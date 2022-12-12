@@ -24,11 +24,13 @@
   {% endfor %}
   <tfoot>
     <td style="font-weight:bold">Total</td>
-    <td><a href="/" class="btn btn-outline-warning"> Back to homepage</a></td>
     <td></td>
+    <td>{{total_gross_price}}</td>
+    <td>{{total_net_price}}</td>
     
   </tfoot>
 </table>
 
+<a href="/" class="btn btn-outline-warning"> Back to homepage</a>
 
 {% endblock %}
